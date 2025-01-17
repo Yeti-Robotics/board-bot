@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -19,14 +20,16 @@ import frc.robot.constants.Constants;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-
-    XboxController xboxController;
+    Joystick keyboard;
+    CommandXboxController xboxController;
+    ClimberSubsystem climber;
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        xboxController = new XboxController(Constants.XBOX_CONTROLLER_PORT);
+        xboxController = new CommandXboxController(Constants.XBOX_CONTROLLER_PORT);
+        climber = new ClimberSubsystem();
         configureBindings();
     }
 
@@ -41,6 +44,8 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+        xboxController.leftBumper().whileTrue(climber.spinClimber(0.3));
+        xboxController.rightBumper().whileTrue(climber.spinClimber(-0.3));
 
     }
 
